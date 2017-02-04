@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+import argparse
+import common
+import crypt
+import sys
+import os
+
+if __name__ == '__main__':
+    logger = common.Logger('pycrypt', common.Logger.LEVELS[1])
+    parser = argparse.ArgumentParser(description = 'Encrypting or Decrypting files.')
+    exclusive_group = parser.add_mutually_exclusive_group()
+    exclusive_group.add_argument('-d', '--decrypt', action = 'store_true', help = 'Decrypt files encrypted')
+    exclusive_group.add_argument('-e', '--encrypt', action = 'store_true', help = 'Encrypt files')
+    parser.add_argument('-o', '--output', nargs = '+', help = 'output files name')
+    parser.add_argument('-k', '--key', help = 'Public key for encryption, private key for decryption')
+    # parser.add_argument('-pn', '--process-num', type = int, help = 'number of processes')
+    parser.add_argument('files', metavar = 'file name', nargs = '+', help = 'file name to be processed')
+    args = parser.parse_args()
+    # print(args)
+    if (not (args.decrypt or args.encrypt)) or (not args.key):
+        logger.error('arguments are not completed.')
+    if args.encrypt:
+        try:
+            for i in range(len(args.files)):
+                encrypt = crypt.Encrypt(args.files[i], args.key)
+                if args.output and len(args.output) > i:
+                    encrypt.encrypt(output_file_name = args.output[i])
+                else:
+                    encrypt.encrypt()
+        except:
+            sys.exit(1)
+    elif args.decrypt:
+        try:
+            for i in range(len(args.files)):
+                decrypt = crypt.Decrypt(args.files[i], args.key)
+                if args.output and len(args.output) > i:
+                    decrypt.decrypt(args.output[i])
+                else:
+                    decrypt.decrypt(os.path.splitext(args.files[i])[0])
+        except:
+            sys.exit(1)
+    
