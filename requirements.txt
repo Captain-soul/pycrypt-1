@@ -1,0 +1,2 @@
+coloredlogs==5.2
+pycryptodome==3.4.4
