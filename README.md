@@ -9,6 +9,7 @@
    - divide an encrypted file to fragments
    - use RSA private key to decrypt AES key
    - use AES key to decrypt files
+   - merge the fragments
 
 ### usage
 ```bash
