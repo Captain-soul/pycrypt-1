@@ -16,3 +16,9 @@
 sudo pip install -r requirements.txt 
 ./pycrypt -h
 ```
+
+### examples
+```bash
+./pycrypt -e file_to_be_encrypted -k id_rsa.pub [-o encrypted_file]
+./pycrypt -d file_to_be_decrypted -k id_rsa [-o decrypted_file]
+```
